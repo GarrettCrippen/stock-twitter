@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+    {% load static %}
+    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/js/bootstrap.min.js' %}" rel="stylesheet">
+
+</head>
+<body>
+
+    <a href="../stocks">
+        <button class="btn btn-primary" type="button">Back To Home</button>
+    </a>
+
+<div id="bar" style="width:1000px; height:600px;"></div>
+<script>
+    var chart = echarts.init(document.getElementById('bar'), 'white', {renderer: 'canvas'});
+
+    $(
+        function () {
+            fetchData(chart);
+        }
+    );
+
+    function fetchData() {
+        $.ajax({
+            type: "GET",
+            url: "http://cs179g-fall-2022-06.cs.ucr.edu:8080/chart4_data",
+            dataType: 'json',
+            success: function (result) {
+                chart.setOption(result.data);
+            }
+        });
+    }
+</script>
+</body>
+</html>
